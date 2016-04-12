@@ -1,13 +1,11 @@
 package dal;
 
-import java.util.List;
+import entity.Person;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
-import entity.Person;
 
 @Stateless
 public class PersonFacade extends AbstractFacade<Person> {
@@ -23,12 +21,18 @@ public class PersonFacade extends AbstractFacade<Person> {
 	protected EntityManager em() {
 		return em;
 	}
-	
-	@SuppressWarnings("unchecked")
-	public List<Person> getAllPerson() {
-		String sql = "SELECT p FROM Person p";
-		Query query = em.createQuery(sql);
-		return (List<Person>) query.getResultList();
+
+	public Person getPersonByNickName(String paramNickName) {
+		Person result = null;
+		String sqlQuery = "SELECT p FROM Person p WHERE p.name = :nickName";
+		Query query = em.createQuery(sqlQuery);
+		query.setParameter("nickName", paramNickName);
+		try {
+			result = (Person) query.getSingleResult();
+		} catch(ClassCastException exception) {
+			// TODO ki kell találni a logolást...
+		}
+		return result;
 	}
 
 }

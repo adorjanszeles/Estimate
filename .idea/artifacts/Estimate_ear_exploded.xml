@@ -6,6 +6,11 @@
       <element id="directory" name="web.war">
         <element id="artifact" artifact-name="Estimate:war exploded" />
       </element>
+      <element id="directory" name="lib">
+        <element id="library" level="project" name="PrimeFaces-5.2" />
+        <element id="library" level="project" name="JPA 2.0-2.0" />
+        <element id="library" level="project" name="glass-x-1.0.10" />
+      </element>
     </root>
   </artifact>
 </component>
