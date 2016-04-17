@@ -1,42 +1,75 @@
 package service;
 
+import common.FacesCommon;
+import common.Role;
 import dal.PersonFacade;
+import dal.PersonRoleFacade;
 import entity.Person;
+import entity.PersonRole;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.facelets.FaceletContext;
 
-@Stateless
 @ManagedBean
+@SessionScoped
+@Stateless
 public class PersonBean {
+    private String name;
     private String userName;
     private String password;
-    private String message;
+    private String email;
+    private Role role;
 
     @EJB
-    PersonFacade personFacade;
+    private PersonFacade personFacade;
 
-    public PersonBean() {
-        this.userName = "";
-        this.password = "";
-        this.message = "";
-    }
-    
-    public void login() {
-        Person person = personFacade.getPersonByNickName(userName);
-        if(password.equals(person.getPassword())) {
-            message = "Bejelentkezés sikeres! :)";
+    @EJB
+    private PersonRoleFacade personRoleFacade;
 
-        } else {
-            message = "Bejelentkezés sikertelen! :(";
-        }
+    public String createPerson() {
         FacesContext context = FacesContext.getCurrentInstance();
-        FacesMessage facesMessage = new FacesMessage(message);
-        context.addMessage(null, facesMessage);
+        Person person = createPersonEntity();
+        PersonRole personRole = createPersonRoleEntity();
+        try {
+            personFacade.create(person);
+            personRoleFacade.create(personRole);
+        } catch (Exception e) {
+            context.addMessage(null, new FacesMessage("A felhasználó regisztrálása sikertelen volt."));
+        }
+        context.addMessage(null, new FacesMessage("A felhasználó regisztrálása sikeres volt."));
+        return FacesCommon.stayOnPage();
+    }
+
+    private Person createPersonEntity() {
+        Person person = new Person();
+        person.setEmail(this.email);
+        person.setName(this.name);
+        person.setNickname(this.userName);
+        person.setPassword(this.password);
+        return person;
+    }
+
+    private PersonRole createPersonRoleEntity() {
+        PersonRole personRole = new PersonRole();
+        personRole.setPersonNickName(this.userName);
+        personRole.setRole(this.role.getName());
+        return personRole;
+    }
+
+    public Role[] getRoles() {
+        return Role.values();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUserName() {
@@ -55,11 +88,19 @@ public class PersonBean {
         this.password = password;
     }
 
-    public String getMessage() {
-        return message;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

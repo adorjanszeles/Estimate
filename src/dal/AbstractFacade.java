@@ -14,11 +14,11 @@ public abstract class AbstractFacade<T> {
 
 	protected abstract EntityManager em();
 
-	public void add(T entity) {
+	public void create(T entity) {
 		em().persist(entity);
 	}
 
-	public void modify(T entity) {
+	public void edit(T entity) {
 		em().merge(entity);
 	}
 
