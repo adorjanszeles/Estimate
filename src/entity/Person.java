@@ -5,7 +5,6 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@NamedQuery(name="Person.findAll", query="SELECT p FROM Person p")
 public class Person implements Serializable {
 	private static final long serialVersionUID = 1L;
 
