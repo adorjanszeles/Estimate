@@ -2,10 +2,33 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    <body>
-        <ui:composition>
-            <h1>This is default header</h1>
-        </ui:composition>
-    </body>
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <h:form>
+            <p:menubar style="background: #DCDCDC !important;">
+                <p:submenu label="Projektek" icon="ui-icon-document">
+                    <p:menuitem value="Új" url="#" />
+                    <p:menuitem value="Keresés" url="#" />
+                </p:submenu>
+
+                <p:submenu label="Felhasználók" icon="ui-icon-pencil">
+                    <p:menuitem value="Új" action="#{navigationBean.goToCreatePerson}" ajax="false" />
+                    <p:menuitem value="Keresés" url="#" />
+                </p:submenu>
+
+                <p:submenu label="Feladatok" icon="ui-icon-gear">
+                    <p:menuitem value="Saját feladatok" url="#" />
+                    <p:menuitem value="Feladat keresés" url="#" />
+                </p:submenu>
+
+                <f:facet name="options">
+                    <p:commandButton value="Kijelentkezés" icon="ui-icon-extlink" action="#{loginBean.logout}" update="growl" ajax="false"/>
+                </f:facet>
+            </p:menubar>
+        </h:form>
+        <p:growl id="growl"/>
+    </ui:composition>
 </html>
