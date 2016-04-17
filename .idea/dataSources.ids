@@ -24,6 +24,12 @@
       <column name="NICKNAME" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="SQL160402211611300" columns="PERSONID"/>
     </table>
+    <table name="PERSONROLE" schema="APP" catalog="" type="TABLE">
+      <column name="PERSONROLEID" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ROLE" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PERSONNICKNAME" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="SQL160417112315050" columns="PERSONROLEID"/>
+    </table>
     <table name="PROJECT" schema="APP" catalog="" type="TABLE">
       <column name="PROJECTID" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="NAME" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
