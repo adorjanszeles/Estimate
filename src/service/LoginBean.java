@@ -31,7 +31,7 @@ public class LoginBean {
             context.addMessage(null, new FacesMessage("Bejelentkezés sikertelen."));
             return FacesCommon.stayOnPage();
         }
-        return FacesCommon.redirectToJSFPage("/admin/dashboard");
+        return FacesCommon.redirectToJSFPage("/user/dashboard");
     }
 
     public String logout() {

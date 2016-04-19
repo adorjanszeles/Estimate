@@ -20,6 +20,8 @@ public class Person implements Serializable {
 
 	private String password;
 
+	private String role;
+
 	//bi-directional many-to-one association to Project
 	@OneToMany(mappedBy="person")
 	private List<Project> projects;
@@ -71,7 +73,15 @@ public class Person implements Serializable {
 		this.password = password;
 	}
 
-	public List<Project> getProjects() {
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public List<Project> getProjects() {
 		return this.projects;
 	}
 
@@ -82,14 +92,12 @@ public class Person implements Serializable {
 	public Project addProject(Project project) {
 		getProjects().add(project);
 		project.setPerson(this);
-
 		return project;
 	}
 
 	public Project removeProject(Project project) {
 		getProjects().remove(project);
 		project.setPerson(null);
-
 		return project;
 	}
 
@@ -104,14 +112,12 @@ public class Person implements Serializable {
 	public Task addTask(Task task) {
 		getTasks().add(task);
 		task.setPerson(this);
-
 		return task;
 	}
 
 	public Task removeTask(Task task) {
 		getTasks().remove(task);
 		task.setPerson(null);
-
 		return task;
 	}
 

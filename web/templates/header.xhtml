@@ -10,17 +10,17 @@
         <h:form>
             <p:menubar style="background: #DCDCDC !important;">
                 <p:submenu label="Projektek" icon="ui-icon-document">
-                    <p:menuitem value="Új" url="#" />
+                    <p:menuitem value="Új" action="#{navigationBean.goToCreateProject}" ajax="false"/>
                     <p:menuitem value="Keresés" url="#" />
                 </p:submenu>
 
                 <p:submenu label="Felhasználók" icon="ui-icon-pencil">
                     <p:menuitem value="Új" action="#{navigationBean.goToCreatePerson}" ajax="false" />
-                    <p:menuitem value="Keresés" url="#" />
+                    <p:menuitem value="Keresés" action="#{navigationBean.goToListPeople}" ajax="false" />
                 </p:submenu>
 
                 <p:submenu label="Feladatok" icon="ui-icon-gear">
-                    <p:menuitem value="Saját feladatok" url="#" />
+                    <p:menuitem value="Saját feladatok" action="#{navigationBean.goToDashboard}" ajax="false" />
                     <p:menuitem value="Feladat keresés" url="#" />
                 </p:submenu>
 

@@ -1,11 +1,10 @@
 package service;
 
 import common.FacesCommon;
+import common.Messages;
 import common.Role;
 import dal.PersonFacade;
-import dal.PersonRoleFacade;
 import entity.Person;
-import entity.PersonRole;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -13,6 +12,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import java.util.List;
 
 @ManagedBean
 @SessionScoped
@@ -23,24 +23,64 @@ public class PersonBean {
     private String password;
     private String email;
     private Role role;
+    private FacesContext context;
+    private List<Person> peopleList;
+    private Person selectedPerson;
 
     @EJB
     private PersonFacade personFacade;
 
-    @EJB
-    private PersonRoleFacade personRoleFacade;
+    public String deletePerson() {
+        context = FacesContext.getCurrentInstance();
+        try {
+            personFacade.remove(selectedPerson);
+        } catch (Exception e) {
+            context.addMessage(null, new FacesMessage(Messages.USER_DELETE_FAILED.getMessage()));
+        }
+        // Reload the site to refresh
+        return FacesCommon.redirectToJSFPage("/admin/listPeople");
+    }
+
+    public void setPersonValueToNull() {
+        this.name = null;
+        this.userName = null;
+        this.email = null;
+        this.role = null;
+    }
+
+    public String setPersonAndRedirect() {
+        this.name = selectedPerson.getName();
+        this.email = selectedPerson.getEmail();
+        this.userName = selectedPerson.getNickname();
+        this.role = Role.valueOf(selectedPerson.getRole());
+        return FacesCommon.redirectToJSFPage("/admin/modifyPerson");
+    }
+
+    public void loadPeopleList() {
+        peopleList = personFacade.findAll();
+    }
 
     public String createPerson() {
-        FacesContext context = FacesContext.getCurrentInstance();
+        context = FacesContext.getCurrentInstance();
         Person person = createPersonEntity();
-        PersonRole personRole = createPersonRoleEntity();
         try {
             personFacade.create(person);
-            personRoleFacade.create(personRole);
         } catch (Exception e) {
-            context.addMessage(null, new FacesMessage("A felhasználó regisztrálása sikertelen volt."));
+            context.addMessage(null, new FacesMessage(Messages.USER_CREATE_FAILED.getMessage()));
         }
-        context.addMessage(null, new FacesMessage("A felhasználó regisztrálása sikeres volt."));
+        context.addMessage(null, new FacesMessage(Messages.USER_CREATE_SUCCESS.getMessage()));
+        return FacesCommon.stayOnPage();
+    }
+
+    public String modifyPerson() {
+        context = FacesContext.getCurrentInstance();
+        Person person = modifyPersonEntity();
+        try {
+            personFacade.edit(person);
+        } catch (Exception e) {
+            context.addMessage(null, new FacesMessage(Messages.USER_MODIFY_FAILED.getMessage()));
+        }
+        context.addMessage(null, new FacesMessage(Messages.USER_MODIFY_SUCCESS.getMessage()));
         return FacesCommon.stayOnPage();
     }
 
@@ -50,14 +90,17 @@ public class PersonBean {
         person.setName(this.name);
         person.setNickname(this.userName);
         person.setPassword(this.password);
+        person.setRole(this.role.getName());
         return person;
     }
 
-    private PersonRole createPersonRoleEntity() {
-        PersonRole personRole = new PersonRole();
-        personRole.setPersonNickName(this.userName);
-        personRole.setRole(this.role.getName());
-        return personRole;
+    private Person modifyPersonEntity() {
+        selectedPerson.setEmail(this.email);
+        selectedPerson.setName(this.name);
+        selectedPerson.setNickname(this.userName);
+        selectedPerson.setPassword(this.password);
+        selectedPerson.setRole(this.role.getName());
+        return selectedPerson;
     }
 
     public Role[] getRoles() {
@@ -102,5 +145,21 @@ public class PersonBean {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<Person> getPeopleList() {
+        return peopleList;
+    }
+
+    public void setPeopleList(List<Person> peopleList) {
+        this.peopleList = peopleList;
+    }
+
+    public Person getSelectedPerson() {
+        return selectedPerson;
+    }
+
+    public void setSelectedPerson(Person selectedPerson) {
+        this.selectedPerson = selectedPerson;
     }
 }

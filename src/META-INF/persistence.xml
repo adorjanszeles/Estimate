@@ -4,7 +4,6 @@
         <jta-data-source>java:jboss/datasources/Derby</jta-data-source>
         <class>entity.Estimate</class>
         <class>entity.Person</class>
-        <class>entity.PersonRole</class>
         <class>entity.Project</class>
         <class>entity.Task</class>
         <class>entity.Worklog</class>

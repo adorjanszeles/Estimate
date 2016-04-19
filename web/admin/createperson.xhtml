@@ -5,6 +5,9 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+    <f:view>
+        <f:event type="preRenderView" listener="#{personBean.setPersonValueToNull}" />
+    </f:view>
     <h:head></h:head>
     <h:body>
         <ui:include src="../templates/header.xhtml" />
