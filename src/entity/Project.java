@@ -1,12 +1,11 @@
 package entity;
 
-import java.io.Serializable;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@NamedQuery(name="Project.findAll", query="SELECT p FROM Project p")
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -27,7 +26,7 @@ public class Project implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date startdate;
 
-	private int state;
+	private String state;
 
 	//bi-directional many-to-one association to Person
 	@ManyToOne
@@ -98,11 +97,11 @@ public class Project implements Serializable {
 		this.startdate = startdate;
 	}
 
-	public int getState() {
+	public String getState() {
 		return this.state;
 	}
 
-	public void setState(int state) {
+	public void setState(String state) {
 		this.state = state;
 	}
 

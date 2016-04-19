@@ -1,7 +1,7 @@
 package entity;
 
-import java.io.Serializable;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -119,6 +119,14 @@ public class Person implements Serializable {
 		getTasks().remove(task);
 		task.setPerson(null);
 		return task;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Person person = (Person) o;
+		return this.personid == person.personid;
 	}
 
 }

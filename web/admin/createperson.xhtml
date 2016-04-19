@@ -24,9 +24,9 @@
                     <h:outputLabel for="password">Jelszó:</h:outputLabel>
                     <p:password id="password" value="#{personBean.password}" required="true" />
                     <h:outputLabel for="role">Szerepkör:</h:outputLabel>
-                    <p:selectOneListbox id="role" value="#{personBean.role}" required="true" >
-                        <f:selectItems value="#{personBean.roles}" />
-                    </p:selectOneListbox>
+                    <p:selectOneMenu id="role" value="#{personBean.role}" required="true" >
+                        <f:selectItems value="#{personBean.roles}" var="roleElement" itemLabel="#{roleElement.name}" />
+                    </p:selectOneMenu>
                 </h:panelGrid>
                 <h:panelGrid style="margin: 0 auto;" columns="1">
                     <p:commandButton value="Regisztrál" action="#{personBean.createPerson}" update="growl" ajax="false"/>

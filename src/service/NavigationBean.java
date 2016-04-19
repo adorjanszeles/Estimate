@@ -10,7 +10,7 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 @Stateless
 public class NavigationBean {
-    public String goToCreatePerson() { return FacesCommon.redirectToJSFPage("/admin/createperson"); }
+    public String goToCreatePerson() { return FacesCommon.redirectToJSFPage("/admin/createPerson"); }
     public String goToListPeople() { return FacesCommon.redirectToJSFPage("/admin/listPeople"); }
     public String goToCreateProject() { return FacesCommon.redirectToJSFPage("/admin/createProject"); }
     public String goToDashboard() { return FacesCommon.redirectToJSFPage("/user/dashboard"); }
