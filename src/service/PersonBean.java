@@ -36,6 +36,7 @@ public class PersonBean {
             personFacade.remove(selectedPerson);
         } catch (Exception e) {
             context.addMessage(null, new FacesMessage(Messages.USER_DELETE_FAILED.getMessage()));
+            return FacesCommon.stayOnPage();
         }
         // Reload the site to refresh
         return FacesCommon.redirectToJSFPage("/admin/listPeople");
@@ -52,7 +53,7 @@ public class PersonBean {
         this.name = selectedPerson.getName();
         this.email = selectedPerson.getEmail();
         this.userName = selectedPerson.getNickname();
-        this.role = Role.valueOf(selectedPerson.getRole());
+        this.role = selectedPerson.getRole();
         return FacesCommon.redirectToJSFPage("/admin/modifyPerson");
     }
 
@@ -67,6 +68,7 @@ public class PersonBean {
             personFacade.create(person);
         } catch (Exception e) {
             context.addMessage(null, new FacesMessage(Messages.USER_CREATE_FAILED.getMessage()));
+            return FacesCommon.stayOnPage();
         }
         context.addMessage(null, new FacesMessage(Messages.USER_CREATE_SUCCESS.getMessage()));
         return FacesCommon.stayOnPage();
@@ -79,6 +81,7 @@ public class PersonBean {
             personFacade.edit(person);
         } catch (Exception e) {
             context.addMessage(null, new FacesMessage(Messages.USER_MODIFY_FAILED.getMessage()));
+            return FacesCommon.stayOnPage();
         }
         context.addMessage(null, new FacesMessage(Messages.USER_MODIFY_SUCCESS.getMessage()));
         return FacesCommon.stayOnPage();
@@ -90,7 +93,7 @@ public class PersonBean {
         person.setName(this.name);
         person.setNickname(this.userName);
         person.setPassword(this.password);
-        person.setRole(this.role.getName());
+        person.setRole(this.role);
         return person;
     }
 
@@ -99,7 +102,7 @@ public class PersonBean {
         selectedPerson.setName(this.name);
         selectedPerson.setNickname(this.userName);
         selectedPerson.setPassword(this.password);
-        selectedPerson.setRole(this.role.getName());
+        selectedPerson.setRole(this.role);
         return selectedPerson;
     }
 

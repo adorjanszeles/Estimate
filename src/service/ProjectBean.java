@@ -29,6 +29,8 @@ public class ProjectBean {
     private Date createDate;
     private Person responsible;
     private FacesContext context;
+    private List<Project> projectList;
+    private Project selectedProject;
 
     @EJB
     private PersonFacade personFacade;
@@ -36,8 +38,29 @@ public class ProjectBean {
     @EJB
     private ProjectFacade projectFacade;
 
-    public void setCreateDateToToday() {
+    public void setProjectList() {
+        this.projectList = projectFacade.findAll();
+    }
+
+    public void setProjectValueToNull() {
         this.createDate = new Date();
+        this.name = null;
+        this.details = null;
+        this.start = null;
+        this.end = null;
+        this.state = null;
+        this.responsible = null;
+    }
+
+    public String setProjectAndRedirect() {
+        this.name = selectedProject.getName();
+        this.details = selectedProject.getDetails();
+        this.createDate = selectedProject.getCreatedate();
+        this.start = selectedProject.getStartdate();
+        this.end = selectedProject.getEnddate();
+        this.state = selectedProject.getState();
+        this.responsible = selectedProject.getPerson();
+        return FacesCommon.redirectToJSFPage("/admin/modifyProject");
     }
 
     public String createProject() {
@@ -47,21 +70,56 @@ public class ProjectBean {
             projectFacade.create(project);
         } catch (Exception e) {
             context.addMessage(null, new FacesMessage(Messages.PROJECT_CREATE_FAILED.getMessage()));
+            return FacesCommon.stayOnPage();
         }
         context.addMessage(null, new FacesMessage(Messages.PROJECT_CREATE_SUCCESS.getMessage()));
         return FacesCommon.stayOnPage();
+    }
+
+    public String modifyProject() {
+        context = FacesContext.getCurrentInstance();
+        Project project = modifyProjectEntity();
+        try {
+            projectFacade.edit(project);
+        } catch (Exception e) {
+            context.addMessage(null, new FacesMessage(Messages.PROJECT_MODIFY_FAILED.getMessage()));
+            return FacesCommon.stayOnPage();
+        }
+        context.addMessage(null, new FacesMessage(Messages.PROJECT_MODIFY_SUCCESS.getMessage()));
+        return FacesCommon.stayOnPage();
+    }
+
+    public String deleteProject() {
+        context = FacesContext.getCurrentInstance();
+        try {
+            projectFacade.remove(selectedProject);
+        } catch (Exception e) {
+            context.addMessage(null, new FacesMessage(Messages.PROJECT_DELETE_FAILED.getMessage()));
+            return FacesCommon.stayOnPage();
+        }
+        // Reload the site to refresh
+        return FacesCommon.redirectToJSFPage("/admin/listProject");
     }
 
     private Project createProjectEntity() {
         Project result = new Project();
         result.setName(this.name);
         result.setDetails(this.details);
-        result.setState(this.state.getName());
+        result.setState(this.state);
         result.setCreatedate(this.createDate);
         result.setStartdate(this.start);
         result.setEnddate(this.end);
         result.setPerson(this.responsible);
         return result;
+    }
+
+    private Project modifyProjectEntity() {
+        selectedProject.setDetails(this.details);
+        selectedProject.setState(this.state);
+        selectedProject.setStartdate(this.start);
+        selectedProject.setEnddate(this.end);
+        selectedProject.setPerson(this.responsible);
+        return selectedProject;
     }
 
     public List<Person> getOperators() {
@@ -126,5 +184,21 @@ public class ProjectBean {
 
     public void setResponsible(Person responsible) {
         this.responsible = responsible;
+    }
+
+    public List<Project> getProjectList() {
+        return projectList;
+    }
+
+    public void setProjectList(List<Project> projectList) {
+        this.projectList = projectList;
+    }
+
+    public Project getSelectedProject() {
+        return selectedProject;
+    }
+
+    public void setSelectedProject(Project selectedProject) {
+        this.selectedProject = selectedProject;
     }
 }

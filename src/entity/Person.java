@@ -1,5 +1,7 @@
 package entity;
 
+import common.Role;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -20,7 +22,8 @@ public class Person implements Serializable {
 
 	private String password;
 
-	private String role;
+    @Enumerated(EnumType.STRING)
+	private Role role;
 
 	//bi-directional many-to-one association to Project
 	@OneToMany(mappedBy="person")
@@ -73,11 +76,11 @@ public class Person implements Serializable {
 		this.password = password;
 	}
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

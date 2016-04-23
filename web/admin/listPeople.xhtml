@@ -14,7 +14,7 @@
         <p:panelGrid>
             <h3 align="center">Felhasználók</h3>
             <p:dataList value="#{personBean.peopleList}" var="person" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
-                <p:commandLink action="#{personBean.setPersonAndRedirect}" title="Részletek megjelenítése" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
+                <p:commandLink action="#{personBean.setPersonAndRedirect}" title="Részletek megjelenítése" styleClass="ui-icon ui-icon-gear" style="float:left;margin-right:10px">
                     <f:setPropertyActionListener value="#{person}" target="#{personBean.selectedPerson}" />
                 </p:commandLink>
                 <p:commandLink update="growl" action="#{personBean.deletePerson}" title="Felhasználó törlése" styleClass="ui-icon ui-icon-trash" style="float:left;margin-right:10px">

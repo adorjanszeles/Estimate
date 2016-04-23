@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+<h:head></h:head>
+<h:body>
+    <ui:include src="../templates/header.xhtml" />
+    <p:panelGrid>
+        <h3 align="center">Feladat módosítása</h3>
+        <h:form>
+            <h:panelGrid style="margin: 0 auto;" columns="2">
+                <h:outputLabel for="name">Név:</h:outputLabel>
+                <p:inputText id="name" value="#{taskBean.name}" required="true" />
+                <h:outputLabel for="details">Részletek:</h:outputLabel>
+                <p:inputTextarea id="details" value="#{taskBean.details}" />
+                <h:outputLabel for="createDate">Létrehozás:</h:outputLabel>
+                <p:calendar id="createDate" value="#{taskBean.createDate}" disabled="true" />
+                <h:outputLabel for="state">Státusz:</h:outputLabel>
+                <p:selectOneMenu id="state" value="#{taskBean.taskState}" required="true" >
+                    <f:selectItems value="#{taskBean.states}" var="stateElement" itemLabel="#{stateElement.name}" itemValue="#{stateElement}" />
+                </p:selectOneMenu>
+                <h:outputLabel for="difficulty">Nehézség:</h:outputLabel>
+                <p:selectOneMenu id="difficulty" value="#{taskBean.difficulty}" required="true" >
+                    <f:selectItems value="#{taskBean.difficulties}" var="difficultyElement" itemLabel="#{difficultyElement.name}" itemValue="#{difficultyElement}" />
+                </p:selectOneMenu>
+                <h:outputLabel for="responsible">Felelős:</h:outputLabel>
+                <p:selectOneMenu id="responsible" value="#{taskBean.responsible}" required="true" converter="#{personConverter}">
+                    <f:selectItems value="#{taskBean.operators}" var="person" itemLabel="#{person.name}" itemValue="#{person}"/>
+                </p:selectOneMenu>
+            </h:panelGrid>
+            <h:panelGrid style="margin: 0 auto;" columns="1">
+                <p:commandButton value="Módosít" action="#{taskBean.modifyTask}" update="growl" ajax="false"/>
+            </h:panelGrid>
+        </h:form>
+    </p:panelGrid>
+</h:body>
+</html>

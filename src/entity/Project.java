@@ -1,5 +1,7 @@
 package entity;
 
+import common.State;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -26,7 +28,8 @@ public class Project implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date startdate;
 
-	private String state;
+	@Enumerated(EnumType.STRING)
+	private State state;
 
 	//bi-directional many-to-one association to Person
 	@ManyToOne
@@ -97,11 +100,11 @@ public class Project implements Serializable {
 		this.startdate = startdate;
 	}
 
-	public String getState() {
+	public State getState() {
 		return this.state;
 	}
 
-	public void setState(String state) {
+	public void setState(State state) {
 		this.state = state;
 	}
 

@@ -9,19 +9,21 @@
     <ui:composition>
         <h:form>
             <p:menubar style="background: #DCDCDC !important;">
-                <p:submenu label="Projektek" icon="ui-icon-document">
-                    <p:menuitem value="Új" action="#{navigationBean.goToCreateProject}" ajax="false"/>
-                    <p:menuitem value="Keresés" url="#" />
+                <p:submenu label="Projektek" icon="ui-icon-clipboard">
+                    <p:menuitem value="Új" action="#{navigationBean.goToCreateProject}" ajax="false" icon="ui-icon-plus" />
+                    <p:menuitem value="Keresés" action="#{navigationBean.goToListProjects}" ajax="false" icon="ui-icon-search" />
                 </p:submenu>
 
-                <p:submenu label="Felhasználók" icon="ui-icon-pencil">
-                    <p:menuitem value="Új" action="#{navigationBean.goToCreatePerson}" ajax="false" />
-                    <p:menuitem value="Keresés" action="#{navigationBean.goToListPeople}" ajax="false" />
+                <p:submenu label="Felhasználók" icon="ui-icon-person">
+                    <p:menuitem value="Új" action="#{navigationBean.goToCreatePerson}" ajax="false" icon="ui-icon-plus" />
+                    <p:menuitem value="Keresés" action="#{navigationBean.goToListPeople}" ajax="false" icon="ui-icon-search" />
                 </p:submenu>
 
-                <p:submenu label="Feladatok" icon="ui-icon-gear">
-                    <p:menuitem value="Saját feladatok" action="#{navigationBean.goToDashboard}" ajax="false" />
-                    <p:menuitem value="Feladat keresés" url="#" />
+                <p:submenu label="Feladatok" icon="ui-icon-document">
+                    <p:menuitem value="Új" action="#{navigationBean.goToCreateTask}" ajax="false" icon="ui-icon-plus" />
+                    <p:menuitem value="Keresés" action="#{navigationBean.goToListTask}" ajax="false" icon="ui-icon-search" />
+                    <p:separator/>
+                    <p:menuitem value="Saját feladatok" action="#{navigationBean.goToDashboard}" ajax="false" icon="ui-icon-tag"/>
                 </p:submenu>
 
                 <f:facet name="options">

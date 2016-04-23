@@ -3,8 +3,8 @@ package common;
 import java.io.Serializable;
 
 public enum Role implements Serializable{
-    ADMIN("ADMIN"),
-    USER("USER");
+    ADMIN("Adminisztrátor"),
+    USER("Felhasználó");
 
     private String name;
 

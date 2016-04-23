@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+    <f:event type="preRenderView" listener="#{taskBean.setTaskList}" />
+</f:view>
+<h:head></h:head>
+<h:body>
+    <ui:include src="../templates/header.xhtml" />
+    <p:panelGrid>
+        <h3 align="center">Feladatok</h3>
+        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+            <h:form>
+                <h:outputText value="Csak saját feladatok: " />
+                <p:inputSwitch value="#{taskBean.loggedInUser}" />
+                <p:commandButton value="Keres" action="#{taskBean.performSearch}" ajax="false"/>
+            </h:form>
+        </h:panelGrid>
+        <p:dataList id="taskListComponent" value="#{taskBean.taskList}" var="task" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
+            <p:commandLink action="#{taskBean.setTaskAndRedirect}" title="Módosítás" styleClass="ui-icon ui-icon-gear" style="float:left;margin-right:10px">
+                <f:setPropertyActionListener value="#{task}" target="#{taskBean.selectedTask}" />
+            </p:commandLink>
+            <p:commandLink action="#{taskBean.viewDetails}" title="Részletek megjelenítése" styleClass="ui-icon ui-icon-tag" style="float:left;margin-right:10px">
+                <f:setPropertyActionListener value="#{task}" target="#{taskBean.selectedTask}" />
+            </p:commandLink>
+            <p:commandLink update="growl" action="#{taskBean.deleteTask}" title="Feladat törlése" styleClass="ui-icon ui-icon-trash" style="float:left;margin-right:10px">
+                <f:setPropertyActionListener value="#{task}" target="#{taskBean.selectedTask}" />
+            </p:commandLink>
+            <h:outputText value="#{task.name}" style="display:inline-block"/>
+        </p:dataList>
+    </p:panelGrid>
+</h:body>
+</html>

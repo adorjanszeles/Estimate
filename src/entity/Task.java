@@ -1,12 +1,14 @@
 package entity;
 
-import java.io.Serializable;
+import common.Difficulty;
+import common.TaskState;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@NamedQuery(name="Task.findAll", query="SELECT t FROM Task t")
 public class Task implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -19,11 +21,13 @@ public class Task implements Serializable {
 
 	private String details;
 
-	private int difficulty;
+	@Enumerated(EnumType.STRING)
+	private Difficulty difficulty;
 
 	private String name;
 
-	private int state;
+	@Enumerated(EnumType.STRING)
+	private TaskState state;
 
 	//bi-directional many-to-one association to Person
 	@ManyToOne
@@ -74,11 +78,11 @@ public class Task implements Serializable {
 		this.details = details;
 	}
 
-	public int getDifficulty() {
+	public Difficulty getDifficulty() {
 		return this.difficulty;
 	}
 
-	public void setDifficulty(int difficulty) {
+	public void setDifficulty(Difficulty difficulty) {
 		this.difficulty = difficulty;
 	}
 
@@ -90,11 +94,11 @@ public class Task implements Serializable {
 		this.name = name;
 	}
 
-	public int getState() {
+	public TaskState getState() {
 		return this.state;
 	}
 
-	public void setState(int state) {
+	public void setState(TaskState state) {
 		this.state = state;
 	}
 
