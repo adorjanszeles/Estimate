@@ -8,22 +8,24 @@
     <f:view>
         <f:event type="preRenderView" listener="#{personBean.setPersonValueToNull}" />
     </f:view>
-    <h:head></h:head>
+    <h:head>
+        <title>Felhasználó létrehozása</title>
+    </h:head>
     <h:body>
         <ui:include src="../templates/header.xhtml" />
         <p:panelGrid>
             <h3 align="center">Új felhasználó regisztráció</h3>
             <h:form>
                 <h:panelGrid style="margin: 0 auto;" columns="2">
-                    <h:outputLabel for="name">Név:</h:outputLabel>
+                    <p:outputLabel for="name">Név:</p:outputLabel>
                     <p:inputText id="name" value="#{personBean.name}" required="true" />
-                    <h:outputLabel for="username">Felhasználói név:</h:outputLabel>
+                    <p:outputLabel for="username">Felhasználói név:</p:outputLabel>
                     <p:inputText id="username" value="#{personBean.userName}" required="true" />
-                    <h:outputLabel for="email">E-mail cím:</h:outputLabel>
+                    <p:outputLabel for="email">E-mail cím:</p:outputLabel>
                     <p:inputText id="email" value="#{personBean.email}" required="true" />
-                    <h:outputLabel for="password">Jelszó:</h:outputLabel>
+                    <p:outputLabel for="password">Jelszó:</p:outputLabel>
                     <p:password id="password" value="#{personBean.password}" required="true" />
-                    <h:outputLabel for="role">Szerepkör:</h:outputLabel>
+                    <p:outputLabel for="role">Szerepkör:</p:outputLabel>
                     <p:selectOneMenu id="role" value="#{personBean.role}" required="true" >
                         <f:selectItems value="#{personBean.roles}" var="roleElement" itemLabel="#{roleElement.name}" />
                     </p:selectOneMenu>
