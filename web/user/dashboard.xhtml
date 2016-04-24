@@ -3,11 +3,28 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    <h:head></h:head>
-    <h:body>
-        <ui:include src="../templates/header.xhtml" />
-        <h1>Hello, #{loginBean.userName}!</h1>
-        <h2>This will your dashboard!</h2>
-    </h:body>
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+    <f:event type="preRenderView" listener="#{taskBean.findUserTaskAndSetName}" />
+</f:view>
+<h:head>
+    <title>Saját feladatok</title>
+</h:head>
+<h:body>
+    <ui:include src="../templates/header.xhtml" />
+    <h1 align="center">Hello, #{taskBean.userName}!</h1>
+    <h3 align="center">Saját feladatok</h3>
+    <ui:include src="../templates/searchBar.xhtml" />
+    <p:dataList id="taskListComponent" value="#{taskBean.taskList}" var="task" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
+        <p:commandLink action="#{taskBean.setTaskAndRedirect}" title="Módosítás" styleClass="ui-icon ui-icon-gear" style="float:left;margin-right:10px">
+            <f:setPropertyActionListener value="#{task}" target="#{taskBean.selectedTask}" />
+        </p:commandLink>
+        <p:commandLink action="#{taskBean.viewDetails}" title="Részletek megjelenítése" styleClass="ui-icon ui-icon-tag" style="float:left;margin-right:10px">
+            <f:setPropertyActionListener value="#{task}" target="#{taskBean.selectedTask}" />
+        </p:commandLink>
+        <h:outputText value="#{task.name}" style="display:inline-block"/>
+    </p:dataList>
+</h:body>
 </html>

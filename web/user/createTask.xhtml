@@ -8,28 +8,30 @@
 <f:view>
     <f:event type="preRenderView" listener="#{taskBean.setTaskValueToNull}" />
 </f:view>
-<h:head></h:head>
+<h:head>
+    <title>Feladat létrehozása</title>
+</h:head>
 <h:body>
     <ui:include src="../templates/header.xhtml" />
     <p:panelGrid>
         <h3 align="center">Új feladat létrehozása</h3>
         <h:form>
             <h:panelGrid style="margin: 0 auto;" columns="2">
-                <h:outputLabel for="name">Név:</h:outputLabel>
+                <p:outputLabel for="name">Név:</p:outputLabel>
                 <p:inputText id="name" value="#{taskBean.name}" required="true" />
-                <h:outputLabel for="details">Részletek:</h:outputLabel>
+                <p:outputLabel for="details">Részletek:</p:outputLabel>
                 <p:inputTextarea id="details" value="#{taskBean.details}" />
-                <h:outputLabel for="createDate">Létrehozás:</h:outputLabel>
+                <p:outputLabel for="createDate">Létrehozás:</p:outputLabel>
                 <p:calendar id="createDate" value="#{taskBean.createDate}" disabled="true" />
-                <h:outputLabel for="state">Státusz:</h:outputLabel>
+                <p:outputLabel for="state">Státusz:</p:outputLabel>
                 <p:selectOneMenu id="state" value="#{taskBean.taskState}" required="true" >
                     <f:selectItems value="#{taskBean.states}" var="stateElement" itemLabel="#{stateElement.name}" itemValue="#{stateElement}" />
                 </p:selectOneMenu>
-                <h:outputLabel for="difficulty">Nehézség:</h:outputLabel>
+                <p:outputLabel for="difficulty">Nehézség:</p:outputLabel>
                 <p:selectOneMenu id="difficulty" value="#{taskBean.difficulty}" required="true" >
                     <f:selectItems value="#{taskBean.difficulties}" var="difficultyElement" itemLabel="#{difficultyElement.name}" itemValue="#{difficultyElement}" />
                 </p:selectOneMenu>
-                <h:outputLabel for="responsible">Felelős:</h:outputLabel>
+                <p:outputLabel for="responsible">Felelős:</p:outputLabel>
                 <p:selectOneMenu id="responsible" value="#{taskBean.responsible}" required="true" converter="#{personConverter}">
                     <f:selectItems value="#{taskBean.operators}" var="person" itemLabel="#{person.name}" itemValue="#{person}"/>
                 </p:selectOneMenu>

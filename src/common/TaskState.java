@@ -1,6 +1,7 @@
 package common;
 
 public enum TaskState {
+    EMPTY(""),
     OPEN("Nyitott"),
     IN_PROGRESS("Folyamatban"),
     DONE("Kész");

@@ -1,6 +1,7 @@
 package common;
 
 public enum Difficulty {
+    EMPTY(""),
     EASY("Könnyű"),
     MEDIUM("Közepes"),
     HARD("Nehéz");

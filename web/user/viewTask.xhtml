@@ -4,8 +4,46 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-<f:view>
-    <h:outputLabel value="Hello, world"/>
-</f:view>
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Feladat naplói és becslései</title>
+    </h:head>
+    <h:body>
+        <ui:include src="../templates/header.xhtml" />
+        <h3 align="center">Munkanapló és becslések</h3>
+        <h:panelGrid columns="2" cellpadding="25" style="margin: 0 auto;">
+            <p:dataList value="#{taskBean.taskList}" var="task" type="unordered" itemType="none" paginator="true" rows="5" styleClass="paginated">
+                <p:commandLink action="#{taskBean.setTaskAndRedirect}" title="Módosítás" styleClass="ui-icon ui-icon-gear" style="float:left;margin-right:10px">
+                    <f:setPropertyActionListener value="#{task}" target="#{taskBean.selectedTask}" />
+                </p:commandLink>
+                <p:commandLink update="growl" action="#{taskBean.deleteTask}" title="Törlése" styleClass="ui-icon ui-icon-trash" style="float:left;margin-right:10px">
+                    <f:setPropertyActionListener value="#{task}" target="#{taskBean.selectedTask}" />
+                </p:commandLink>
+                <h:outputText value="#{task.name}" style="display:inline-block"/>
+            </p:dataList>
+
+            <p:dataList value="#{taskBean.taskList}" var="task" type="unordered" itemType="none" paginator="true" rows="5" styleClass="paginated">
+                <p:commandLink action="#{taskBean.setTaskAndRedirect}" title="Módosítás" styleClass="ui-icon ui-icon-gear" style="float:left;margin-right:10px">
+                    <f:setPropertyActionListener value="#{task}" target="#{taskBean.selectedTask}" />
+                </p:commandLink>
+                <p:commandLink update="growl" action="#{taskBean.deleteTask}" title="Törlése" styleClass="ui-icon ui-icon-trash" style="float:left;margin-right:10px">
+                    <f:setPropertyActionListener value="#{task}" target="#{taskBean.selectedTask}" />
+                </p:commandLink>
+                <h:outputText value="#{task.name}" style="display:inline-block"/>
+            </p:dataList>
+
+            <p:commandButton value="Új munka napló elem hozzáadása" type="button" onclick="PF('worklog').show()" />
+
+            <p:commandButton value="Új becslés hozzáadása" type="button" onclick="PF('estimate').show()" />
+        </h:panelGrid>
+
+        <p:dialog header="Munkanapló bejegyzés" widgetVar="worklog" showEffect="explode" hideEffect="bounce" height="100">
+            <h:outputText value="This dialog has nice effects." />
+        </p:dialog>
+
+        <p:dialog header="Becslés" widgetVar="estimate" showEffect="explode" hideEffect="bounce" height="100">
+            <h:outputText value="This dialog has nice effects." />
+        </p:dialog>
+    </h:body>
 </html>

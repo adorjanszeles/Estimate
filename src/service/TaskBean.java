@@ -7,6 +7,7 @@ import common.TaskState;
 import dal.PersonFacade;
 import dal.TaskFacade;
 import entity.Person;
+import entity.SearchParameters;
 import entity.Task;
 
 import javax.ejb.EJB;
@@ -28,10 +29,13 @@ public class TaskBean {
     private Difficulty difficulty;
     private Person responsible;
     private Date createDate;
-    private FacesContext context;
+    private FacesContext facesContext;
     private List<Task> taskList;
     private Task selectedTask;
-    private boolean loggedInUser;
+    private String userName;
+    private String searchName;
+    private TaskState searchState;
+    private Difficulty searchDifficulty;
 
     @EJB
     private TaskFacade taskFacade;
@@ -40,20 +44,23 @@ public class TaskBean {
     private PersonFacade personFacade;
 
     public void setTaskList() {
-        if(loggedInUser) {
-            this.taskList = taskFacade.findByUser();
-        } else {
-            this.taskList = taskFacade.findAll();
-        }
+        this.taskList = taskFacade.findAll();
+        this.setSearchValueToNull();
+    }
+
+    public void findUserTaskAndSetName() {
+        this.taskList = taskFacade.findByUser();
+        this.userName = taskFacade.getLoggedInUserName();
+        this.setSearchValueToNull();
     }
 
     public String performSearch() {
-        if(loggedInUser) {
-            this.taskList = taskFacade.findByUser();
-        } else {
-            this.taskList = taskFacade.findAll();
-        }
-        return FacesCommon.redirectToJSFPage("/user/listTask");
+        SearchParameters params = new SearchParameters();
+        params.setSearchName(this.searchName);
+        params.setSearchDifficulty(this.searchDifficulty);
+        params.setSearchState(this.searchState);
+        this.taskList = taskFacade.findByParameters(params);
+        return FacesCommon.redirectToJSFPage("/user/resultTaskList");
     }
 
     public String setTaskAndRedirect() {
@@ -75,38 +82,44 @@ public class TaskBean {
         this.responsible = null;
     }
 
+    private void setSearchValueToNull() {
+        this.searchName = null;
+        this.searchDifficulty = null;
+        this.searchState = null;
+    }
+
     public String createTask() {
-        context = FacesContext.getCurrentInstance();
+        facesContext = FacesContext.getCurrentInstance();
         Task task = createTaskEntity();
         try {
             taskFacade.create(task);
         } catch (Exception e) {
-            context.addMessage(null, new FacesMessage(Messages.TASK_CREATE_FAILED.getMessage()));
+            facesContext.addMessage(null, new FacesMessage(Messages.TASK_CREATE_FAILED.getMessage()));
             return FacesCommon.stayOnPage();
         }
-        context.addMessage(null, new FacesMessage(Messages.TASK_CREATE_SUCCESS.getMessage()));
+        facesContext.addMessage(null, new FacesMessage(Messages.TASK_CREATE_SUCCESS.getMessage()));
         return FacesCommon.stayOnPage();
     }
 
     public String modifyTask() {
-        context = FacesContext.getCurrentInstance();
+        facesContext = FacesContext.getCurrentInstance();
         Task task = modifyTaskEntity();
         try {
             taskFacade.edit(task);
         } catch (Exception e) {
-            context.addMessage(null, new FacesMessage(Messages.TASK_MODIFY_FAILED.getMessage()));
+            facesContext.addMessage(null, new FacesMessage(Messages.TASK_MODIFY_FAILED.getMessage()));
             return FacesCommon.stayOnPage();
         }
-        context.addMessage(null, new FacesMessage(Messages.TASK_MODIFY_SUCCESS.getMessage()));
+        facesContext.addMessage(null, new FacesMessage(Messages.TASK_MODIFY_SUCCESS.getMessage()));
         return FacesCommon.stayOnPage();
     }
 
     public String deleteTask() {
-        context = FacesContext.getCurrentInstance();
+        facesContext = FacesContext.getCurrentInstance();
         try {
             taskFacade.remove(selectedTask);
         } catch (Exception e) {
-            context.addMessage(null, new FacesMessage(Messages.TASK_DELETE_FAILED.getMessage()));
+            facesContext.addMessage(null, new FacesMessage(Messages.TASK_DELETE_FAILED.getMessage()));
             return FacesCommon.stayOnPage();
         }
         return FacesCommon.redirectToJSFPage("/user/listTask");
@@ -115,7 +128,7 @@ public class TaskBean {
     public String viewDetails() {
         // TODO implement view method, here will be the chance
         // TODO to associate estimate and task, and work log and task
-        return "";
+        return FacesCommon.redirectToJSFPage("/user/viewTask");
     }
 
     private Task createTaskEntity() {
@@ -214,11 +227,35 @@ public class TaskBean {
         this.selectedTask = selectedTask;
     }
 
-    public boolean isLoggedInUser() {
-        return loggedInUser;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setLoggedInUser(boolean loggedInUser) {
-        this.loggedInUser = loggedInUser;
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getSearchName() {
+        return searchName;
+    }
+
+    public void setSearchName(String searchName) {
+        this.searchName = searchName;
+    }
+
+    public TaskState getSearchState() {
+        return searchState;
+    }
+
+    public void setSearchState(TaskState searchState) {
+        this.searchState = searchState;
+    }
+
+    public Difficulty getSearchDifficulty() {
+        return searchDifficulty;
+    }
+
+    public void setSearchDifficulty(Difficulty searchDifficulty) {
+        this.searchDifficulty = searchDifficulty;
     }
 }

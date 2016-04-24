@@ -8,7 +8,9 @@
     <f:view>
         <f:event type="preRenderView" listener="#{personBean.loadPeopleList}" />
     </f:view>
-    <h:head></h:head>
+    <h:head>
+        <title>Felhasználók listázása</title>
+    </h:head>
     <h:body>
         <ui:include src="../templates/header.xhtml" />
         <p:panelGrid>
