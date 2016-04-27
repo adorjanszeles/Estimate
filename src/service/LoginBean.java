@@ -4,7 +4,6 @@ import common.FacesCommon;
 import dal.PersonFacade;
 
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -14,9 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 
 @ManagedBean
 @SessionScoped
-@Stateless
 public class LoginBean {
-    private String userName;
+    private String name;
     private String password;
 
     @EJB
@@ -26,7 +24,7 @@ public class LoginBean {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
-            request.login(this.userName, this.password);
+            request.login(this.name, this.password);
         } catch (ServletException e) {
             context.addMessage(null, new FacesMessage("Bejelentkezés sikertelen."));
             return FacesCommon.stayOnPage();
@@ -40,18 +38,18 @@ public class LoginBean {
         try {
             request.logout();
         } catch (ServletException e) {
-            context.addMessage(null, new FacesMessage("Logout failed."));
+            context.addMessage(null, new FacesMessage("Kijelentkezés sikertelen."));
             return FacesCommon.stayOnPage();
         }
         return FacesCommon.redirectToJSFPage("/index");
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {

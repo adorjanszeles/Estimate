@@ -7,7 +7,6 @@ import dal.PersonFacade;
 import entity.Person;
 
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -16,10 +15,8 @@ import java.util.List;
 
 @ManagedBean
 @SessionScoped
-@Stateless
 public class PersonBean {
     private String name;
-    private String userName;
     private String password;
     private String email;
     private Role role;
@@ -44,7 +41,6 @@ public class PersonBean {
 
     public void setPersonValueToNull() {
         this.name = null;
-        this.userName = null;
         this.email = null;
         this.role = null;
     }
@@ -52,7 +48,6 @@ public class PersonBean {
     public String setPersonAndRedirect() {
         this.name = selectedPerson.getName();
         this.email = selectedPerson.getEmail();
-        this.userName = selectedPerson.getNickname();
         this.role = selectedPerson.getRole();
         return FacesCommon.redirectToJSFPage("/admin/modifyPerson");
     }
@@ -91,7 +86,6 @@ public class PersonBean {
         Person person = new Person();
         person.setEmail(this.email);
         person.setName(this.name);
-        person.setNickname(this.userName);
         person.setPassword(this.password);
         person.setRole(this.role);
         return person;
@@ -100,7 +94,6 @@ public class PersonBean {
     private Person modifyPersonEntity() {
         selectedPerson.setEmail(this.email);
         selectedPerson.setName(this.name);
-        selectedPerson.setNickname(this.userName);
         selectedPerson.setPassword(this.password);
         selectedPerson.setRole(this.role);
         return selectedPerson;
@@ -116,14 +109,6 @@ public class PersonBean {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getPassword() {

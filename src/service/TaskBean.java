@@ -6,10 +6,11 @@ import common.Messages;
 import common.TaskState;
 import dal.PersonFacade;
 import dal.TaskFacade;
-import entity.*;
+import entity.Person;
+import entity.SearchParameters;
+import entity.Task;
 
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -19,7 +20,6 @@ import java.util.List;
 
 @ManagedBean
 @SessionScoped
-@Stateless
 public class TaskBean {
     private String name;
     private String details;

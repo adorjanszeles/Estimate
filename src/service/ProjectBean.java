@@ -19,7 +19,6 @@ import java.util.List;
 
 @ManagedBean
 @SessionScoped
-@Stateless
 public class ProjectBean {
     private String name;
     private String details;

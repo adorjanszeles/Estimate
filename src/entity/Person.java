@@ -18,8 +18,6 @@ public class Person implements Serializable {
 
 	private String name;
 
-	private String nickname;
-
 	private String password;
 
     @Enumerated(EnumType.STRING)
@@ -58,14 +56,6 @@ public class Person implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getNickname() {
-		return this.nickname;
-	}
-
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
 	}
 
 	public String getPassword() {

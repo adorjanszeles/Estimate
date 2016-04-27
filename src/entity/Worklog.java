@@ -20,8 +20,7 @@ public class Worklog implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date enddate;
 
-	@Temporal(TemporalType.DATE)
-	private Date spendtime;
+	private int spendtime;
 
 	@Temporal(TemporalType.DATE)
 	private Date startdate;
@@ -58,11 +57,11 @@ public class Worklog implements Serializable {
 		this.enddate = enddate;
 	}
 
-	public Date getSpendtime() {
+	public int getSpendtime() {
 		return this.spendtime;
 	}
 
-	public void setSpendtime(Date spendtime) {
+	public void setSpendtime(int spendtime) {
 		this.spendtime = spendtime;
 	}
 

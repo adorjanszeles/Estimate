@@ -16,6 +16,7 @@
       <column name="CREATEDATE" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
       <column name="TASKID" sqlType="INTEGER" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="SQL160402211612500" columns="ESTIMATEID"/>
+      <foreign-key name="FK4OCDSD93NRLVODQLE31DSQX6B" columns="TASKID" ref-table="TASK" ref-schema="APP" ref-catalog="" ref-columns="TASKID" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="ESTIMATE_TASK_TASKID_FK" columns="TASKID" ref-table="TASK" ref-schema="APP" ref-catalog="" ref-columns="TASKID" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="PERSON" schema="APP" catalog="" type="TABLE">
@@ -23,8 +24,8 @@
       <column name="NAME" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="EMAIL" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="PASSWORD" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="NICKNAME" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="ROLE" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="NICKNAME" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="SQL160402211611300" columns="PERSONID"/>
     </table>
     <table name="PROJECT" schema="APP" catalog="" type="TABLE">
@@ -37,15 +38,14 @@
       <column name="PERSONID" sqlType="INTEGER" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="STATE" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="SQL160402211614950" columns="PROJECTID"/>
+      <foreign-key name="FK9HRMQMURL1VEM45APMXX2LOBB" columns="PERSONID" ref-table="PERSON" ref-schema="APP" ref-catalog="" ref-columns="PERSONID" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="SQL160402211614951" columns="PERSONID" ref-table="PERSON" ref-schema="APP" ref-catalog="" ref-columns="PERSONID" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="PROJECT_ESTIMATE" schema="APP" catalog="" type="TABLE">
       <column name="PROJECTID" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="ESTIMATEID" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <foreign-key name="FKK5N5X4HUT4JXTRQLX421VMOH3" columns="ESTIMATEID" ref-table="ESTIMATE" ref-schema="APP" ref-catalog="" ref-columns="ESTIMATEID" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="SQL160402211617481" columns="ESTIMATEID" ref-table="ESTIMATE" ref-schema="APP" ref-catalog="" ref-columns="ESTIMATEID" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK79WJ9TK1K021XPKQFLGASX0KT" columns="PROJECTID" ref-table="PROJECT" ref-schema="APP" ref-catalog="" ref-columns="PROJECTID" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="SQL160402211617480" columns="PROJECTID" ref-table="PROJECT" ref-schema="APP" ref-catalog="" ref-columns="PROJECTID" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="TASK" schema="APP" catalog="" type="TABLE">
       <column name="TASKID" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4"/>
@@ -56,26 +56,24 @@
       <column name="DIFFICULTY" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="STATE" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="SQL160402211613690" columns="TASKID"/>
+      <foreign-key name="FKCPNXWNUOCX83APP2ELEFNLCN6" columns="PERSONID" ref-table="PERSON" ref-schema="APP" ref-catalog="" ref-columns="PERSONID" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="TASK_ESTIMATE" schema="APP" catalog="" type="TABLE">
       <column name="TASKID" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="ESTIMATEID" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <foreign-key name="FK3NCBDWMFO104XQR4CT3T1WP57" columns="ESTIMATEID" ref-table="ESTIMATE" ref-schema="APP" ref-catalog="" ref-columns="ESTIMATEID" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="SQL160402211618771" columns="ESTIMATEID" ref-table="ESTIMATE" ref-schema="APP" ref-catalog="" ref-columns="ESTIMATEID" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK20OHF40JIT47VVACPSY2M6F8P" columns="TASKID" ref-table="TASK" ref-schema="APP" ref-catalog="" ref-columns="TASKID" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="SQL160402211618770" columns="TASKID" ref-table="TASK" ref-schema="APP" ref-catalog="" ref-columns="TASKID" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="WORKLOG" schema="APP" catalog="" type="TABLE">
       <column name="WORKLOGID" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="STARTDATE" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
       <column name="ENDDATE" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
-      <column name="SPENDTIME" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
       <column name="CREATEDATE" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
       <column name="TASKID" sqlType="INTEGER" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="NAME" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SPENDTIME" sqlType="INTEGER" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="SQL160402211616210" columns="WORKLOGID"/>
       <foreign-key name="FK1CWUF0T5CIKAFROFA09MCIL31" columns="TASKID" ref-table="TASK" ref-schema="APP" ref-catalog="" ref-columns="TASKID" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="SQL160402211616211" columns="TASKID" ref-table="TASK" ref-schema="APP" ref-catalog="" ref-columns="TASKID" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
   </data-source>
 </component>
