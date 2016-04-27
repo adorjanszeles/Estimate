@@ -38,17 +38,8 @@ public class Task implements Serializable {
 	@OneToMany(mappedBy="task")
 	private List<Worklog> worklogs;
 
-	//bi-directional many-to-many association to Estimate
-	@ManyToMany
-	@JoinTable(
-		name="TASK_ESTIMATE"
-		, joinColumns={
-			@JoinColumn(name="TASKID")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="ESTIMATEID")
-			}
-		)
+	//bi-directional many-to-one association to Estimate
+	@OneToMany(mappedBy ="task")
 	private List<Estimate> estimates;
 
 	public Task() {

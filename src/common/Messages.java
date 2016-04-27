@@ -15,7 +15,10 @@ public enum Messages {
     TASK_CREATE_SUCCESS("A feladat létrehozása sikeres volt."),
     TASK_MODIFY_FAILED("A feladat módosítása sikertelen volt."),
     TASK_MODIFY_SUCCESS("A feladat módosítása sikeres volt."),
-    TASK_DELETE_FAILED("A feladat törlése sikertelen volt.");
+    TASK_DELETE_FAILED("A feladat törlése sikertelen volt."),
+    WORKLOG_SAVE_SUCCESS("A munkanapló bejegyzés mentése sikeres volt."),
+    WORKLOG_SAVE_FAILED("A munkanapló bejegyzés mentése sikertelen volt."),
+    WORKLOG_DELETE_FAILED("A munkanapló bejegyzés törlése sikertelen volt.");
 
     private String message;
 

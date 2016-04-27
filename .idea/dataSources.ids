@@ -14,7 +14,9 @@
       <column name="SIGMA" sqlType="DOUBLE" precision="52" scale="0" nullable="false" jdbcType="8"/>
       <column name="ESTIMATEDTIME" sqlType="DOUBLE" precision="52" scale="0" nullable="false" jdbcType="8"/>
       <column name="CREATEDATE" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
+      <column name="TASKID" sqlType="INTEGER" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="SQL160402211612500" columns="ESTIMATEID"/>
+      <foreign-key name="ESTIMATE_TASK_TASKID_FK" columns="TASKID" ref-table="TASK" ref-schema="APP" ref-catalog="" ref-columns="TASKID" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="PERSON" schema="APP" catalog="" type="TABLE">
       <column name="PERSONID" sqlType="INTEGER" precision="10" scale="0" nullable="false" jdbcType="4"/>
@@ -70,6 +72,7 @@
       <column name="SPENDTIME" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
       <column name="CREATEDATE" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
       <column name="TASKID" sqlType="INTEGER" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="NAME" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="SQL160402211616210" columns="WORKLOGID"/>
       <foreign-key name="FK1CWUF0T5CIKAFROFA09MCIL31" columns="TASKID" ref-table="TASK" ref-schema="APP" ref-catalog="" ref-columns="TASKID" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="SQL160402211616211" columns="TASKID" ref-table="TASK" ref-schema="APP" ref-catalog="" ref-columns="TASKID" update-rule="3" delete-rule="3" deferrability="2"/>

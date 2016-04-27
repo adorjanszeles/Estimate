@@ -19,6 +19,8 @@
         </p:commandLink>
         <p:commandLink action="#{taskBean.viewDetails}" title="Részletek megjelenítése" styleClass="ui-icon ui-icon-tag" style="float:left;margin-right:10px">
             <f:setPropertyActionListener value="#{task}" target="#{taskBean.selectedTask}" />
+            <f:setPropertyActionListener value="#{task}" target="#{worklogBean.task}" />
+            <f:setPropertyActionListener value="#{task}" target="#{estimateBean.task}" />
         </p:commandLink>
         <p:commandLink update="growl" action="#{taskBean.deleteTask}" title="Feladat törlése" styleClass="ui-icon ui-icon-trash" style="float:left;margin-right:10px">
             <f:setPropertyActionListener value="#{task}" target="#{taskBean.selectedTask}" />

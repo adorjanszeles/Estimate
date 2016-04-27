@@ -1,9 +1,8 @@
 package entity;
 
-import java.io.Serializable;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Estimate implements Serializable {
@@ -26,13 +25,10 @@ public class Estimate implements Serializable {
 
 	private int worst;
 
-	//bi-directional many-to-many association to Project
-	@ManyToMany(mappedBy="estimates")
-	private List<Project> projects;
-
-	//bi-directional many-to-many association to Task
-	@ManyToMany(mappedBy="estimates")
-	private List<Task> tasks;
+	//bi-directional many-to-one association to Task
+	@ManyToOne
+	@JoinColumn(name="TASKID")
+	private Task task;
 
 	public Estimate() {
 	}
@@ -93,20 +89,12 @@ public class Estimate implements Serializable {
 		this.worst = worst;
 	}
 
-	public List<Project> getProjects() {
-		return this.projects;
+	public Task getTask() {
+		return this.task;
 	}
 
-	public void setProjects(List<Project> projects) {
-		this.projects = projects;
-	}
-
-	public List<Task> getTasks() {
-		return this.tasks;
-	}
-
-	public void setTasks(List<Task> tasks) {
-		this.tasks = tasks;
+	public void setTask(Task task) {
+		this.task = task;
 	}
 
 }

@@ -6,6 +6,10 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <f:event type="preRenderView" listener="#{worklogBean.setWorklogList}" />
+        <f:event type="preRenderView" listener="#{estimateBean.setEstimateList}" />
+    </f:view>
     <h:head>
         <title>Feladat naplói és becslései</title>
     </h:head>
@@ -13,37 +17,94 @@
         <ui:include src="../templates/header.xhtml" />
         <h3 align="center">Munkanapló és becslések</h3>
         <h:panelGrid columns="2" cellpadding="25" style="margin: 0 auto;">
-            <p:dataList value="#{taskBean.taskList}" var="task" type="unordered" itemType="none" paginator="true" rows="5" styleClass="paginated">
-                <p:commandLink action="#{taskBean.setTaskAndRedirect}" title="Módosítás" styleClass="ui-icon ui-icon-gear" style="float:left;margin-right:10px">
-                    <f:setPropertyActionListener value="#{task}" target="#{taskBean.selectedTask}" />
+            <p:dataList value="#{worklogBean.worklogList}" var="worklog" type="unordered" itemType="none" paginator="true" rows="5" styleClass="paginated">
+                <p:commandLink update=":worklogForm:worklogDetail" oncomplete="PF('worklogDialog').show()" title="Módosítás" styleClass="ui-icon ui-icon-gear" style="float:left;margin-right:10px">
+                    <f:setPropertyActionListener value="#{worklog}" target="#{worklogBean.selectedWorklog}" />
                 </p:commandLink>
-                <p:commandLink update="growl" action="#{taskBean.deleteTask}" title="Törlése" styleClass="ui-icon ui-icon-trash" style="float:left;margin-right:10px">
-                    <f:setPropertyActionListener value="#{task}" target="#{taskBean.selectedTask}" />
+                <p:commandLink update="growl" action="#{worklogBean.deleteWorklog}" title="Törlése" styleClass="ui-icon ui-icon-trash" style="float:left;margin-right:10px">
+                    <f:setPropertyActionListener value="#{worklog}" target="#{worklogBean.selectedWorklog}" />
                 </p:commandLink>
-                <h:outputText value="#{task.name}" style="display:inline-block"/>
+                <h:outputText value="#{worklog.name}" style="display:inline-block"/>
             </p:dataList>
 
-            <p:dataList value="#{taskBean.taskList}" var="task" type="unordered" itemType="none" paginator="true" rows="5" styleClass="paginated">
-                <p:commandLink action="#{taskBean.setTaskAndRedirect}" title="Módosítás" styleClass="ui-icon ui-icon-gear" style="float:left;margin-right:10px">
-                    <f:setPropertyActionListener value="#{task}" target="#{taskBean.selectedTask}" />
+            <p:dataList value="#{estimateBean.estimateList}" var="estimate" type="unordered" itemType="none" paginator="true" rows="5" styleClass="paginated">
+                <p:commandLink update=":estimateForm:estimateDetail" oncomplete="PF('estimateDialog').show()" title="Módosítás" styleClass="ui-icon ui-icon-gear" style="float:left;margin-right:10px">
+                    <f:setPropertyActionListener value="#{estimate}" target="#{estimateBean.selectedEstimate}" />
                 </p:commandLink>
-                <p:commandLink update="growl" action="#{taskBean.deleteTask}" title="Törlése" styleClass="ui-icon ui-icon-trash" style="float:left;margin-right:10px">
-                    <f:setPropertyActionListener value="#{task}" target="#{taskBean.selectedTask}" />
+                <p:commandLink update=":estimateResultForm:estimateResultDetail" oncomplete="PF('estimateResultDialog').show()" title="Becslés megtekintése" styleClass="ui-icon ui-icon-lightbulb" style="float:left;margin-right:10px">
+                    <f:setPropertyActionListener value="#{estimate}" target="#{estimateBean.selectedEstimate}" />
                 </p:commandLink>
-                <h:outputText value="#{task.name}" style="display:inline-block"/>
+                <p:commandLink update="growl" action="#{estimateBean.deleteEstimate}" title="Törlése" styleClass="ui-icon ui-icon-trash" style="float:left;margin-right:10px">
+                    <f:setPropertyActionListener value="#{estimate}" target="#{estimateBean.selectedEstimate}" />
+                </p:commandLink>
+                <h:outputText value="#{estimate.estimatedtime} nap" style="display:inline-block"/>
             </p:dataList>
 
-            <p:commandButton value="Új munka napló elem hozzáadása" type="button" onclick="PF('worklog').show()" />
+            <p:commandButton value="Új munka napló elem hozzáadása" update=":worklogForm:worklogDetail" oncomplete="PF('worklogDialog').show()">
+                <f:setPropertyActionListener value="#{worklogBean.emptyWorklog}" target="#{worklogBean.selectedWorklog}" />
+            </p:commandButton>
 
-            <p:commandButton value="Új becslés hozzáadása" type="button" onclick="PF('estimate').show()" />
+            <p:commandButton value="Új becslés hozzáadása" update=":estimateForm:estimateDetail" oncomplete="PF('estimateDialog').show()">
+                <f:setPropertyActionListener value="#{estimateBean.emptyEstimate}" target="#{estimateBean.selectedEstimate}" />
+            </p:commandButton>
         </h:panelGrid>
 
-        <p:dialog header="Munkanapló bejegyzés" widgetVar="worklog" showEffect="explode" hideEffect="bounce" height="100">
-            <h:outputText value="This dialog has nice effects." />
+        <!-- Worklog dialog -->
+        <p:dialog header="Munkanapló bejegyzés" widgetVar="worklogDialog" modal="true" showEffect="explode" hideEffect="explode" height="350" resizable="false">
+            <h:form id="worklogForm">
+                <p:outputPanel id="worklogDetail" style="text-align:center;">
+                    <p:panelGrid columns="2" rendered="#{not empty worklogBean.selectedWorklog}" columnClasses="label,value">
+                        <p:outputLabel for="name">Tevékenység:</p:outputLabel>
+                        <p:inputText id="name" value="#{worklogBean.selectedWorklog.name}" required="true" />
+                        <p:outputLabel for="start">Kezdés:</p:outputLabel>
+                        <p:calendar id="start" value="#{worklogBean.selectedWorklog.startdate}" required="true" />
+                        <p:outputLabel for="end">Befejezés:</p:outputLabel>
+                        <p:calendar id="end" value="#{worklogBean.selectedWorklog.enddate}" />
+                        <p:outputLabel for="spend">Eltöltött idő:</p:outputLabel>
+                        <p:calendar id="spend" value="#{worklogBean.selectedWorklog.spendtime}" required="true" />
+                        <p:outputLabel for="createDate">Létrehozás:</p:outputLabel>
+                        <p:calendar id="createDate" value="#{worklogBean.selectedWorklog.createdate}" disabled="true" />
+                    </p:panelGrid>
+                    <h:panelGrid style="margin: 0 auto;" columns="1">
+                        <p:commandButton value="Mentés" action="#{worklogBean.createOrModifyWorklog}" ajax="false"/>
+                    </h:panelGrid>
+                </p:outputPanel>
+            </h:form>
         </p:dialog>
 
-        <p:dialog header="Becslés" widgetVar="estimate" showEffect="explode" hideEffect="bounce" height="100">
-            <h:outputText value="This dialog has nice effects." />
+        <!-- Estimate dialog -->
+        <p:dialog header="Becslés" widgetVar="estimateDialog" modal="true" showEffect="explode" hideEffect="explode" height="350" resizable="false">
+            <h:form id="estimateForm">
+                <p:outputPanel id="estimateDetail" style="text-align:center;">
+                    <p:panelGrid columns="2" rendered="#{not empty estimateBean.selectedEstimate}" columnClasses="label,value">
+                        <p:outputLabel for="worst">Legrosszabb (nap):</p:outputLabel>
+                        <p:inputMask id="worst" value="#{estimateBean.selectedEstimate.worst}" mask="9?99" required="true" />
+                        <p:outputLabel for="best">Legjobb (nap):</p:outputLabel>
+                        <p:inputMask id="best" value="#{estimateBean.selectedEstimate.best}" mask="9?99" required="true" />
+                        <p:outputLabel for="optimal">Optimális (nap):</p:outputLabel>
+                        <p:inputMask id="optimal" value="#{estimateBean.selectedEstimate.optimal}" mask="9?99" required="true" />
+                        <p:outputLabel for="estCreateDate">Létrehozás:</p:outputLabel>
+                        <p:calendar id="estCreateDate" value="#{estimateBean.selectedEstimate.createdate}" disabled="true" />
+                    </p:panelGrid>
+                    <h:panelGrid style="margin: 0 auto;" columns="1">
+                        <p:commandButton value="Mentés" action="#{estimateBean.createOrModifyEstimate}" ajax="false"/>
+                    </h:panelGrid>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+        <!-- Estimate result dialog -->
+        <p:dialog header="Becslés" widgetVar="estimateResultDialog" modal="true" showEffect="explode" hideEffect="explode" height="350" resizable="false">
+            <h:form id="estimateResultForm">
+                <p:outputPanel id="estimateResultDetail" style="text-align:center;">
+                    <p:panelGrid columns="2" rendered="#{not empty estimateBean.selectedEstimate}" columnClasses="label,value">
+                        <p:outputLabel for="sigma">Szórás:</p:outputLabel>
+                        <p:inputText id="sigma" value="#{estimateBean.selectedEstimate.sigma} nap" disabled="true" />
+                        <p:outputLabel for="estimatedTime">Becsült időtartam:</p:outputLabel>
+                        <p:inputText id="estimatedTime" value="#{estimateBean.selectedEstimate.estimatedtime} nap" disabled="true" />
+                    </p:panelGrid>
+                </p:outputPanel>
+            </h:form>
         </p:dialog>
     </h:body>
 </html>

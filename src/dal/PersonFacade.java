@@ -20,17 +20,4 @@ public class PersonFacade extends AbstractFacade<Person> {
 	protected EntityManager em() {
 		return em;
 	}
-
-//	public Person getPersonByNickName(String paramNickName) {
-//		Person result;
-//		String sqlQuery = "SELECT p FROM Person p WHERE p.name = :nickName";
-//		Query query = em.createQuery(sqlQuery);
-//		query.setParameter("nickName", paramNickName);
-//		try {
-//			result = (Person) query.getSingleResult();
-//		} catch(NoResultException e) {
-//			result = null;
-//		}
-//		return result;
-//	}
 }

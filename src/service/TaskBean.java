@@ -6,9 +6,7 @@ import common.Messages;
 import common.TaskState;
 import dal.PersonFacade;
 import dal.TaskFacade;
-import entity.Person;
-import entity.SearchParameters;
-import entity.Task;
+import entity.*;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -126,8 +124,6 @@ public class TaskBean {
     }
 
     public String viewDetails() {
-        // TODO implement view method, here will be the chance
-        // TODO to associate estimate and task, and work log and task
         return FacesCommon.redirectToJSFPage("/user/viewTask");
     }
 

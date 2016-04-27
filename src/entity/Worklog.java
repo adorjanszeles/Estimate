@@ -1,17 +1,18 @@
 package entity;
 
-import java.io.Serializable;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@NamedQuery(name="Worklog.findAll", query="SELECT w FROM Worklog w")
 public class Worklog implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int worklogid;
+
+    private String name;
 
 	@Temporal(TemporalType.DATE)
 	private Date createdate;
@@ -81,4 +82,11 @@ public class Worklog implements Serializable {
 		this.task = task;
 	}
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
