@@ -5,17 +5,20 @@ import common.Messages;
 import common.Role;
 import dal.PersonFacade;
 import entity.Person;
+import webservice.IPersonWs;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.jws.WebService;
 import java.util.List;
 
 @ManagedBean
 @SessionScoped
-public class PersonBean {
+@WebService(endpointInterface = "webservice.IPersonWs")
+public class PersonBean implements IPersonWs {
     private String name;
     private String password;
     private String email;
@@ -26,6 +29,11 @@ public class PersonBean {
 
     @EJB
     private PersonFacade personFacade;
+
+    @Override
+    public List<Person> getAllPersonWebService() {
+        return personFacade.findAll();
+    }
 
     public String deletePerson() {
         context = FacesContext.getCurrentInstance();

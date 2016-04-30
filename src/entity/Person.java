@@ -3,36 +3,46 @@ package entity;
 import common.Role;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.List;
 
 @Entity
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType
 public class Person implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+    @XmlTransient
 	private int personid;
 
-	private String email;
+    @XmlElement(name = "email")
+    private String email;
 
+    @XmlElement(name = "name")
 	private String name;
 
+    @XmlTransient
 	private String password;
 
+    @XmlElement(name = "role")
     @Enumerated(EnumType.STRING)
 	private Role role;
 
 	//bi-directional many-to-one association to Project
+    @XmlTransient
 	@OneToMany(mappedBy="person")
 	private List<Project> projects;
 
 	//bi-directional many-to-one association to Task
+    @XmlTransient
 	@OneToMany(mappedBy="person")
 	private List<Task> tasks;
 
-	public Person() {
-	}
+	public Person() {}
 
 	public int getPersonid() {
 		return this.personid;
